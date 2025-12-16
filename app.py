@@ -86,13 +86,22 @@ async def set_autorole_error(ctx, error):
 
 @bot.event
 async def on_member_join(member):
-	res = cur.execute(f"SELECT autorole_id FROM guilds WHERE guild_id = {member.guild.id}")
-	role_id = res.fetchone()
-	if role_id:
-		role_id = role_id[0]
+	# forma desesperada de fazer funfar caso o render caia
+	if member.guild.id == 1134246683753054278: # deceint server
+		role_id = 1450224602893652029
 		role = member.guild.get_role(role_id)
 		if role:
 			await member.add_roles(role)
+			return
+		return
+	else:
+		res = cur.execute(f"SELECT autorole_id FROM guilds WHERE guild_id = {member.guild.id}")
+		role_id = res.fetchone()
+		if role_id:
+			role_id = role_id[0]
+			role = member.guild.get_role(role_id)
+			if role:
+				await member.add_roles(role)
 #endregion
 
 # comando teste
