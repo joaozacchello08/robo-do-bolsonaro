@@ -2,6 +2,7 @@ services:
   - type: web
     name: robo-bolsonaro-deceint-discord-bot
     env: python
+    plan: free
     buildCommand: |
       apt-get update
       apt-get install -y ffmpeg
