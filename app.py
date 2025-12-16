@@ -17,7 +17,8 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-role_id = 1450224602893652029
+role_id = 1450224602893652029 # main server role
+test_role_id = 1450294816888852480
 
 @bot.event
 async def on_ready():
@@ -28,5 +29,9 @@ async def on_member_join(member):
 	role = member.guild.get_role(role_id)
 	if role:
 		await member.add_roles(role)
+	elif not role:
+		await member.add_roles(test_role_id)
+	else:
+		print("Couldn't find and assign the role.")
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
