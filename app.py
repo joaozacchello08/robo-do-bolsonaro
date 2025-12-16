@@ -27,10 +27,11 @@ async def on_ready():
 @bot.event
 async def on_member_join(member):
 	role = member.guild.get_role(role_id)
+	test_role = member.guild.get_role(test_role_id)
 	if role:
 		await member.add_roles(role)
 	elif not role:
-		await member.add_roles(test_role_id)
+		await member.add_roles(test_role)
 	else:
 		print("Couldn't find and assign the role.")
 
