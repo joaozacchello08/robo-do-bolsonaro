@@ -64,12 +64,12 @@ async def lukinhas(ctx):
 	await member.edit(mute=True)
 	await ctx.reply(f"Lukinhas mutado com sucesso, desmutando em 15 segundos. {ctx.author.mention}")
 
-	channel = member.voice.channel
-	vc = ctx.voice_client
-	if vc and vc.is_connected():
-		pass
-	else:
-		vc = await channel.connect()
+	# channel = member.voice.channel
+	# vc = ctx.voice_client
+	# if vc and vc.is_connected():
+	# 	pass
+	# else:
+	# 	vc = await channel.connect()
 
 	# TODO: fazer ele entrar e tocar o audio do renan puto
 
