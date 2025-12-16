@@ -26,6 +26,8 @@ adm_role = 1423426169381978173
 loren_id = 754371726498070568
 xongs_id = 909210394139168838
 
+ffmpeg_executable = "./ffmpeg.exe"
+
 @bot.event
 async def on_ready():
 	print(f"Bot is running, {bot.user.name} is ready!")
@@ -83,7 +85,10 @@ async def lukinhas(ctx):
 	else:
 		vc = await channel.connect()
 
-	audio = FFmpegPCMAudio("assets/renan-putasso.mp3")
+	audio = FFmpegPCMAudio(
+		source="assets/renan-putasso.mp3",
+		executable=ffmpeg_executable
+	)
 	vc.play(audio)
 
 	# esperar, desmutar
