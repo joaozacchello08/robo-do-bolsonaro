@@ -116,7 +116,7 @@ async def lukinhas(ctx):
 	if ctx.author.id not in allowlist:
 		f = open("assets/bluezao-macaco.gif", "rb")
 		gif = discord.File(f)
-		await ctx.reply("O cara achando que vai mutar o Lukinhas :clown: Você não manda em nada aqui não cuzão :rofl:", file=gif)
+		await ctx.reply("Boa fdp, ta achando que vai mutar o Lukinhas :clown:? Você não manda em nada aqui não cuzão :rofl:", file=gif)
 		return
 
 	member = ctx.guild.get_member(lukinhas_id) or await ctx.guild.fetch_member(lukinhas_id) # member = lukinhas
