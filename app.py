@@ -114,7 +114,7 @@ async def pong(ctx):
 	await ctx.reply("é !ping burro kkkkkk, mas toma seu pong :ping_pong:")
 #endregion
 
-#region !lukinhas
+#region !mlukinhas
 scheduled_tasks = {}
 @bot.command()
 async def mlukinhas(ctx):
@@ -126,7 +126,10 @@ async def mlukinhas(ctx):
 	# alguem que nao seja nem eu nem loren
 	allowlist = [909210394139168838, 754371726498070568]
 	if ctx.author.id not in allowlist:
-		await ctx.reply("Boa fdp, ta achando que vai mutar o Lukinhas :clown:? Você não manda em nada aqui não cuzão :rofl:", embed="https://cdn.discordapp.com/attachments/1450470865509679114/1450471002411765911/bluezao-macaco.gif?ex=6942a7e3&is=69415663&hm=355db46c5d6714a7022e2e68b6ec4f6f57ff1bf1fc21f4a09a87b8f77660feec&")
+		await ctx.reply(
+			"Boa fdp, ta achando que vai mutar o Lukinhas :clown:? Você não manda em nada aqui não cuzão :rofl:",
+			embed=discord.Embed().set_image(url="https://cdn.discordapp.com/attachments/1450470865509679114/1450471002411765911/bluezao-macaco.gif?ex=6942a7e3&is=69415663&hm=355db46c5d6714a7022e2e68b6ec4f6f57ff1bf1fc21f4a09a87b8f77660feec&")
+		)
 		return
 
 	member = ctx.guild.get_member(lukinhas_id) or await ctx.guild.fetch_member(lukinhas_id) # member = lukinhas
@@ -215,5 +218,5 @@ async def on_message(message):
 #endregion
 
 if __name__ == "__main__":
-	keep_alive()
+	# keep_alive()
 	bot.run(token, log_handler=handler, log_level=logging.DEBUG)
