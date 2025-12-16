@@ -4,4 +4,4 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: chmod +x ffmpeg && python app.py
+    startCommand: python app.py

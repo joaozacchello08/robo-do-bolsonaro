@@ -3,14 +3,13 @@ from dotenv import load_dotenv
 import os
 import discord
 from discord.ext import commands
-from discord import FFmpegPCMAudio
 import logging
 import asyncio
 
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 
-keep_alive() # keep it off for render
+keep_alive()
 
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
 intents = discord.Intents.default()
@@ -25,8 +24,6 @@ lukinhas_id = 837599708235038730
 adm_role = 1423426169381978173
 loren_id = 754371726498070568
 xongs_id = 909210394139168838
-
-ffmpeg_executable = "./ffmpeg"
 
 @bot.event
 async def on_ready():
@@ -76,20 +73,6 @@ async def lukinhas(ctx):
 	# mutar
 	await member.edit(mute=True)
 	await ctx.reply(f"Lukinhas mutado com sucesso, desmutando em 15 segundos. {ctx.author.mention}")
-
-	# fazer o bot entrar e tocar o audio do renan puto
-	channel = member.voice.channel
-	vc = ctx.voice_client
-	if vc and vc.is_connected():
-		pass
-	else:
-		vc = await channel.connect()
-
-	audio = FFmpegPCMAudio(
-		source="assets/renan-putasso.mp3",
-		executable=ffmpeg_executable
-	)
-	vc.play(audio)
 
 	# esperar, desmutar
 	await asyncio.sleep(15)
