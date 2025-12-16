@@ -173,5 +173,5 @@ async def fabgodamn(ctx):
 	return
 
 if __name__ == "__main__":
-	# keep_alive()
+	keep_alive()
 	bot.run(token, log_handler=handler, log_level=logging.DEBUG)
