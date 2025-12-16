@@ -6,6 +6,7 @@ from discord.ext import commands
 import logging
 import sqlite3
 import asyncio
+import random
 
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
@@ -166,6 +167,21 @@ async def loren(ctx):
 	audio = discord.File(f)
 	await ctx.reply(f"{ctx.author.mention} mandou um recado pro loren:", file=audio)
 
+# !fabgodamn
+@bot.command()
+async def fabgodamn(ctx):
+    import os, random, discord
+
+    path = "./assets/!fabgodamn/"
+    videos = [f for f in os.listdir(path) if f.lower().endswith(".mp4")]
+
+    if videos:
+        escolhido = videos[random.randint(0, len(videos) - 1)]
+        arquivo = os.path.join(path, escolhido)
+        with open(arquivo, "rb") as f:
+            await ctx.reply("FABGODAMN", file=discord.File(f))
+
+
 if __name__ == "__main__":
-	keep_alive()
+	# keep_alive()
 	bot.run(token, log_handler=handler, log_level=logging.DEBUG)
