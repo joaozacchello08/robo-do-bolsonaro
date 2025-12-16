@@ -48,7 +48,7 @@ async def on_member_join(member):
 @bot.command()
 # @commands.has_role(adm_role)
 async def lukinhas(ctx):
-	if ctx.author.id not in [loren_id, xongs_id, lukinhas_id]:
+	if ctx.author.id not in [loren_id, xongs_id, lukinhas_id]: # not working
 		file = discord.File("assets/bluezao-macaco.gif", filename="bluezao-puto-com-macaquisse.gif")
 		await ctx.reply("Tá querendo mutar o MEU Lukinhas sem ser adm? Você não manda em nada aqui porra. ", file=file)
 		return
@@ -58,9 +58,9 @@ async def lukinhas(ctx):
 		await ctx.reply("Lukinhas, você é um bobinho :rofl::rofl:", file=file)
 		return
 
-	member = ctx.guild.get_member(id_lukinhas) # member = lukinhas
+	member = ctx.guild.get_member(lukinhas_id) # member = lukinhas
 	if not member:
-		await ctx.reply(f"Usuário Lukinhas (ID: {id_lukinhas}) não encontrado.")
+		await ctx.reply(f"Usuário Lukinhas (ID: {lukinhas_id}) não encontrado.")
 		return
 
 	if not member.voice:
