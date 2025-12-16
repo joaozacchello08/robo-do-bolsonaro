@@ -29,6 +29,7 @@ xongs_id = 909210394139168838
 @bot.event
 async def on_ready():
 	print(f"Bot is running, {bot.user.name} is ready!")
+	return
 
 @bot.event
 async def on_member_join(member):
@@ -36,42 +37,50 @@ async def on_member_join(member):
 	test_role = member.guild.get_role(test_role_id)
 	if role:
 		await member.add_roles(role)
+		return
 	elif not role:
 		await member.add_roles(test_role)
+		return
 	else:
 		print("Couldn't find and assign the role.")
+		return
 
 @bot.command()
 # @commands.has_role(adm_role)
 async def lukinhas(ctx):
 	if ctx.author.id not in [loren_id, xongs_id, lukinhas_id]:
-		file = discord.File("assets/", filename="puto-com-macaquisse.gif")
+		file = discord.File("assets/bluezao-macaco.gif", filename="bluezao-puto-com-macaquisse.gif")
 		await ctx.reply("Tá querendo mutar o MEU Lukinhas sem ser adm? Você não manda em nada aqui porra. ", file=file)
+		return
 
-	if ctx.author.id == id_lukinhas:
+	if ctx.author.id == lukinhas_id:
 		file = discord.File("assets/john-cena-looking-downwards.gif", filename="john-cena-decepcionado-com-macaquisse.gif")
 		await ctx.reply("Lukinhas, você é um bobinho :rofl::rofl:", file=file)
+		return
 
-	member = ctx.guild.get_member(id_lukinhas)
-
+	member = ctx.guild.get_member(id_lukinhas) # member = lukinhas
 	if not member:
 		await ctx.reply(f"Usuário Lukinhas (ID: {id_lukinhas}) não encontrado.")
+		return
 
 	if not member.voice:
 		await ctx.reply(f"Porra {ctx.author.name}, o Lukinhas nem tá na call :rofl::rofl:")
+		return
 
 	# mutar
 	await member.edit(mute=True)
 	await ctx.reply(f"Lukinhas mutado com sucesso, desmutando em 15 segundos. {ctx.author.mention}")
 
-	# channel = member.voice.channel
-	# vc = ctx.voice_client
-	# if vc and vc.is_connected():
-	# 	pass
-	# else:
-	# 	vc = await channel.connect()
+	# fazer o bot entrar e tocar o audio do renan puto
+	channel = member.voice.channel
+	vc = ctx.voice_client
+	if vc and vc.is_connected():
+		pass
+	else:
+		vc = await channel.connect()
 
-	# TODO: fazer ele entrar e tocar o audio do renan puto
+	audio = FFmpegPCMAudio("assets/renan-putasso.mp3")
+	vc.play(audio)
 
 	# esperar, desmutar
 	await asyncio.sleep(15)
