@@ -10,8 +10,6 @@ import asyncio
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 
-keep_alive()
-
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
 intents = discord.Intents.default()
 intents.message_content = True
@@ -168,4 +166,6 @@ async def loren(ctx):
 	audio = discord.File(f)
 	await ctx.reply(f"{ctx.author.mention} mandou um recado pro loren:", file=audio)
 
-bot.run(token, log_handler=handler, log_level=logging.DEBUG)
+if __name__ == "__main__":
+	keep_alive()
+	bot.run(token, log_handler=handler, log_level=logging.DEBUG)
