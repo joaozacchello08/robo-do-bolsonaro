@@ -26,7 +26,7 @@ adm_role = 1423426169381978173
 loren_id = 754371726498070568
 xongs_id = 909210394139168838
 
-ffmpeg_executable = "./ffmpeg.exe"
+ffmpeg_executable = "./ffmpeg"
 
 @bot.event
 async def on_ready():
