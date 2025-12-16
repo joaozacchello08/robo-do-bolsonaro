@@ -21,8 +21,10 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 role_id = 1450224602893652029 # main server role
 test_role_id = 1450294816888852480
-id_lukinhas = 837599708235038730
+lukinhas_id = 837599708235038730
 adm_role = 1423426169381978173
+loren_id = 754371726498070568
+xongs_id = 909210394139168838
 
 @bot.event
 async def on_ready():
@@ -41,8 +43,8 @@ async def on_member_join(member):
 
 @bot.command()
 # @commands.has_role(adm_role)
-async def lukinhas(ctx, error):
-	if isinstance(error, commands.MissingRole) or isinstance(error, commands.MissingPermitions):
+async def lukinhas(ctx):
+	if ctx.author.id not in [loren_id, xongs_id, lukinhas_id]:
 		file = discord.File("assets/", filename="puto-com-macaquisse.gif")
 		await ctx.reply("Tá querendo mutar o MEU Lukinhas sem ser adm? Você não manda em nada aqui porra. ", file=file)
 
