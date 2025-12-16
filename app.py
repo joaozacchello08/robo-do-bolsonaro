@@ -10,7 +10,7 @@ import asyncio
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 
-keep_alive()
+# keep_alive() # keep it off for render
 
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
 intents = discord.Intents.default()
@@ -44,6 +44,10 @@ async def on_member_join(member):
 	else:
 		print("Couldn't find and assign the role.")
 		return
+
+@bot.command()
+async def ping(ctx):
+	await ctx.reply("pong")
 
 @bot.command()
 # @commands.has_role(adm_role)
