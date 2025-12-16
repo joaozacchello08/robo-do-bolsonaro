@@ -10,7 +10,7 @@ import asyncio
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
 
-# keep_alive() # keep it off for render
+keep_alive() # keep it off for render
 
 handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
 intents = discord.Intents.default()
