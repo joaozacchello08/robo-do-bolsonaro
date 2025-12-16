@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 import logging
 import sqlite3
+import asyncio
 
 load_dotenv()
 token = os.getenv("DISCORD_TOKEN")
@@ -16,6 +17,8 @@ intents.message_content = True
 intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
+
+lukinhas_id = 837599708235038730
 
 #region setting up db
 filename = "guild_data.db"
@@ -91,13 +94,68 @@ async def on_member_join(member):
 			await member.add_roles(role)
 #endregion
 
-
+# comando teste
 @bot.command()
 async def ping(ctx):
 	await ctx.reply("pong :ping_pong:")
 
+# !lukinhas
+scheduled_tasks = {}
 @bot.command()
 async def lukinhas(ctx):
-	pass
+	# lukinhas usa o comando
+	if ctx.author.id == lukinhas_id:
+		f = open("assets/john-cena-looking-downwards.gif", "rb")
+		gif = discord.File(f)
+		await ctx.reply("Lukinhas, você é um bobinho :stuck_out_tongue_closed_eyes::rofl:", file=gif)
+		return
+
+	# alguem que nao seja nem eu nem loren
+	allowlist = [909210394139168838, 754371726498070568]
+	if ctx.author.id not in allowlist:
+		f = open("assets/bluezao-macaco.gif", "rb")
+		gif = discord.File(f)
+		await ctx.reply("O cara achando que vai mutar o Lukinhas :clown: Você não manda em nada aqui não cuzão :rofl:", file=gif)
+		return
+
+	member = ctx.guild.get_member(lukinhas_id) or await ctx.guild.fetch_member(lukinhas_id) # member = lukinhas
+	if not member or not member.voice:
+		await ctx.reply(f"Pô {ctx.author.name}, o Lukinhas nem tá na call :rofl::rofl:")
+		return
+
+	# muta
+	await member.edit(mute=True)
+	await ctx.reply(f"Lukinhas mutado, desmutando em 15 segundos.")
+
+	# cancela a ultima task
+	if lukinhas_id in scheduled_tasks:
+		scheduled_tasks[lukinhas_id].cancel()
+
+	# agenda desmute
+	async def unmute():
+		try:
+			await asyncio.sleep(15)
+			member_check = ctx.guild.get_member(lukinhas_id)
+			if member_check and member_check.voice:
+				await member_check.edit(mute=False)
+				await ctx.send("Lukinhas desmutado.")
+		except asyncio.CancelledError:
+			pass
+	
+	task = asyncio.create_task(unmute())
+	scheduled_tasks[lukinhas_id] = task
+
+@lukinhas.error
+async def lukinhas_on_error(ctx, error):
+	await ctx.reply("O Lukinhas infelizmente não foi encontrado no server :cry:")
+	return
+#endregion
+
+# !loren
+@bot.command()
+async def loren(ctx):
+	f = open("assets/renan-putasso.mp3", "rb")
+	audio = discord.File(f)
+	await ctx.reply(f"{ctx.author.mention} mandou um recado pro loren:", file=audio)
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
