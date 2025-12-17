@@ -217,6 +217,124 @@ async def on_message(message):
             await message.reply("Comando ou usuário não existente.")
 #endregion
 
+#region default text channel
+def get_default_text_channel(guild):
+    for channel in guild.text_channels:
+        if channel.permissions_for(guild.me).send_messages:
+            return channel
+    return None
+#endregion
+
+#region kick afk
+personal_blacklist = {
+	721131146347282452,
+	806321689989349406,
+	792224319748177930
+}
+
+# key: (guild_id, channel_id, member_id)
+afk_tasks: dict[tuple[int, int, int], asyncio.Task] = {}
+
+
+async def check_afk(guild_id: int, channel_id: int, member_id: int):
+	key = (guild_id, channel_id, member_id)
+
+	try:
+		timeout = 5 * 60 if member_id in personal_blacklist else 10 * 60
+		await asyncio.sleep(timeout)
+
+		guild = bot.get_guild(guild_id)
+		if not guild:
+			return
+
+		channel = guild.get_channel(channel_id)
+		member = guild.get_member(member_id)
+		if not channel or not member:
+			return
+
+		if (
+			member.voice
+			and member.voice.channel
+			and member.voice.channel.id == channel_id
+			and len(channel.members) == 1
+		):
+			await member.move_to(None)
+
+			text_channel = get_default_text_channel(guild)
+			if text_channel:
+				await text_channel.send(
+					f"{member.mention} foi removido da call {channel.name} por ficar sozinho."
+				)
+
+	except asyncio.CancelledError:
+		pass
+	finally:
+		afk_tasks.pop(key, None)
+
+# AUTO_KICK_ID = 909210394139168838
+
+@bot.event
+async def on_voice_state_update(member, before, after):
+	#region AUTO KICK KKKKKKK
+	# if not before.channel and after.channel and member.id == AUTO_KICK_ID:
+	# 	await member.move_to(None)
+
+	# 	text_channel = get_default_text_channel(member.guild)
+	# 	if text_channel:
+	# 		await text_channel.send(f"{member.mention} se fode.")
+
+	# 	return
+	#endregion
+
+	# ignorar mute/deafen/etc
+	if before.channel == after.channel:
+		return
+
+	gid = member.guild.id
+	mid = member.id
+
+	# saiu de call
+	if before.channel and not after.channel:
+		key = (gid, before.channel.id, mid)
+		task = afk_tasks.pop(key, None)
+		if task:
+			task.cancel()
+		return
+
+	# entrou em call
+	if not before.channel and after.channel:
+		key = (gid, after.channel.id, mid)
+
+		if key in afk_tasks:
+			afk_tasks[key].cancel()
+
+		afk_tasks[key] = asyncio.create_task(
+			check_afk(gid, after.channel.id, mid)
+		)
+		return
+
+	# trocou de canal
+	if before.channel and after.channel:
+		old_key = (gid, before.channel.id, mid)
+		new_key = (gid, after.channel.id, mid)
+
+		task = afk_tasks.pop(old_key, None)
+		if task:
+			task.cancel()
+
+		afk_tasks[new_key] = asyncio.create_task(
+			check_afk(gid, after.channel.id, mid)
+		)
+
+	# alguém entrou no canal → cancela AFK só de quem tava sozinho ali
+	if after.channel and len(after.channel.members) > 1:
+		for m in after.channel.members:
+			key = (gid, after.channel.id, m.id)
+			task = afk_tasks.pop(key, None)
+			if task:
+				task.cancel()
+#endregion
+
 if __name__ == "__main__":
 	keep_alive()
 	bot.run(token, log_handler=handler, log_level=logging.DEBUG)
