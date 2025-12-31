@@ -360,4 +360,4 @@ async def on_member_update(before, after):
 
 if __name__ == "__main__":
     keep_alive()
-    bot.run(token, log_handler=handler, log_level=logging.DEBUG)
+    bot.run(token, log_handler=handler, log_level="DEBUG")
