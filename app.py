@@ -128,7 +128,7 @@ async def mlukinhas(ctx):
     allowlist = [909210394139168838, 754371726498070568]
     if ctx.author.id not in allowlist:
         await ctx.reply(
-            "Boa fdp, ta achando que vai mutar o Lukinhas :clown:? Você não manda em nada aqui não cuzão :rofl:",
+            "Boa fdp, ta achando que vai mutar o Lukinhas :clown:? Você não manda em nada aqui não babaca :rofl:",
             embed=discord.Embed().set_image(url="https://cdn.discordapp.com/attachments/1450470865509679114/1450471002411765911/bluezao-macaco.gif?ex=6942a7e3&is=69415663&hm=355db46c5d6714a7022e2e68b6ec4f6f57ff1bf1fc21f4a09a87b8f77660feec&")
         )
         return
@@ -213,7 +213,7 @@ async def on_message(message):
         if not membro:
             membro = discord.utils.get(message.guild.members, nick=comando)
         if membro:
-            await message.reply(f"{membro.mention} vai se fuder")
+            await message.reply(f"{membro.mention} = tchola")
         else:
             await message.reply("Comando ou usuário não existente.")
 #endregion
@@ -264,7 +264,7 @@ async def check_afk(guild_id: int, channel_id: int, member_id: int):
             text_channel = get_default_text_channel(guild)
             if text_channel:
                 await text_channel.send(
-                    f"{member.mention} foi removido da call {channel.name} por ficar sozinho."
+                    f"{member.mention} foi removido da call {channel.name} por ficar mofando na call."
                 )
 
     except asyncio.CancelledError:
@@ -353,7 +353,7 @@ async def on_member_update(before, after):
         try:
             await after.edit(nick=FORCED_NICK)
             text_channel = get_default_text_channel(after.guild)
-            await text_channel.send(f"{after.mention}, pedro viado seu apelido não pode ser alterado :rofl:")
+            await text_channel.send(f"{after.mention}, pedro seu apelido não pode ser alterado :rofl:")
         except Exception:
             pass
 #endregion
